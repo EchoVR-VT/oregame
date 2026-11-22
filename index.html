@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ore Gacha</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="fx"></canvas>
+<header><div class="top">
+  <div class="logo"><span>ORE</span> GACHA</div>
+  <nav>
+    <button class="tab active" data-v="home">Home</button>
+    <button class="tab" data-v="collection">Collection</button>
+    <button class="tab" data-v="deck">Deck</button>
+    <button class="tab" data-v="duel">Duels</button>
+    <button class="tab" data-v="leaderboard">Leaderboard</button>
+    <button class="tab" data-v="profile">Profile</button>
+    <button id="mute" title="Sound on/off">🔊</button>
+  </nav>
+</div></header>
+<main>
+<div id="homeView">
+  <div class="hero">
+    <section class="panel">
+      <div class="kicker">Offline ore collecting game</div><h1>Ore Gacha</h1>
+      <p class="muted">Open packs, collect mineral cards, build a deck and drag your ores onto the board to battle a bot.</p>
+      <div class="stats">
+        <div class="stat"><b id="packs">3</b><span class="muted">Packs</span></div>
+        <div class="stat"><b id="ownedCount">0</b><span class="muted">Ores owned</span></div>
+        <div class="stat"><b id="deckCount">0/10</b><span class="muted">Deck</span></div>
+      </div>
+      <p class="muted" id="packTimer" style="margin:12px 0 0"></p>
+      <div class="actions" style="margin-top:14px"><button class="primary" id="open">Open pack</button></div>
+    </section>
+    <section class="pack-display"><span class="pack-count"><b id="packBadge">3</b> packs available</span><div class="pack"></div></section>
+  </div>
+  <section class="section"><div class="section-head"><h2>Featured ores</h2><span class="muted">Mineral card set</span></div><div class="grid" id="featured"></div></section>
+</div>
+
+<div id="collectionView" hidden>
+  <div class="section-head"><div><div class="kicker">Your minerals</div><h1>Collection</h1></div>
+    <div class="controls"><input id="search" placeholder="Search ores"><select id="filter"><option value="all">All rarities</option><option>Legendary</option><option>Epic</option><option>Rare</option><option>Common</option></select></div>
+  </div><div class="grid" id="collection"></div>
+</div>
+
+<div id="deckView" hidden>
+  <div class="kicker">Choose up to ten ores</div><h1>Deck Builder</h1>
+  <div class="section-head"><h2>Your deck <span id="deckLabel" class="muted">0/10</span></h2><button id="clear">Clear deck</button></div>
+  <div class="grid" id="deck"></div>
+  <section class="section"><div class="section-head"><h2>Available ores <span id="dCount" class="muted" style="font-size:13px"></span></h2>
+<div class="controls"><input id="dSearch" placeholder="Search ores or mutations">
+<select id="dRar"><option value="all">All rarities</option><option>Legendary</option><option>Epic</option><option>Rare</option><option>Common</option></select>
+<select id="dMut"><option value="all">All mutations</option><option value="none">No mutation</option><option value="golden">Golden</option><option value="rainbow">Rainbow</option><option value="hacker">Hacker</option></select>
+<select id="dDup"><option value="all">Duplicates: any</option><option value="dup">Duplicates only</option><option value="single">Singles only</option></select>
+<button id="dReset">Reset</button></div></div><div class="grid" id="choices"></div></section>
+</div>
+
+<div id="duelView" hidden>
+  <div class="kicker">Card battle</div><h1>Ore Duels</h1>
+
+  <section class="panel" id="duelIntro">
+    <h2>Ready to battle Glungus Bot?</h2>
+    <ul class="intro-list">
+      <li>You and the bot each start with <b>20 ♥ health</b>.</li>
+      <li>Every ore is a <b>unit</b> with its own <b>⚔ attack</b> and <b>♥ health</b>. Cost: Common 1, Rare 2, Epic 3, Legendary 4, Mythic 5, Exotic 6 energy. Golden ores get +1/+1, Rainbow +2/+2, Hacker +3/+3 and Checkered +5/+5.</li>
+      <li><b>Drag</b> an ore from your hand onto an empty slot (or click the card, then click a slot).</li>
+      <li>Click a glowing ore, then click an enemy ore to attack it. The attacker takes no damage back. If the enemy has no ores, hit their hero directly.</li>
+      <li>Ores can attack the turn they are played. When your deck runs out, your discard pile is reshuffled into it. You get 60 seconds per turn and the duel lasts 20 rounds (higher health wins).</li>
+      <li>Win a duel to earn packs: <b>Easy 1, Medium 5, Hard 10</b>.</li>
+    </ul>
+    <p class="muted" id="introMsg">Build a deck in the Deck tab, then start. (More ores in the deck = more cards to draw.)</p>
+    <div class="diffbox">
+      <div class="section-head" style="margin-bottom:6px"><b>Difficulty: <span id="diffName">Medium</span></b><span class="muted" id="diffInfo"></span></div>
+      <input type="range" id="diff" min="0" max="2" step="1" value="1">
+      <div class="difflabels"><span>Easy</span><span>Medium</span><span>Hard</span></div>
+    </div>
+    <button class="primary" id="startDuel">Start bot duel</button>
+  </section>
+
+  <div class="arena" id="arena" hidden>
+    <div class="banner" id="banner"></div>
+    <div class="pbar bot" id="botBar">
+      <span class="name">Glungus Bot</span>
+      <span class="hearts" id="bHeart">♥ <b id="bHP">20</b></span><span class="hbar"><i id="bBar"></i></span>
+      <span class="muted" id="bHand">Hand 0/8</span>
+      <span class="energy" id="bEnergy"></span>
+      <div class="backs" id="botBacks"></div>
+      <span class="grow"></span>
+      <div class="piles">
+        <div class="pile"><div class="pb" id="bDeck">0</div>Deck</div>
+        <div class="pile disc"><div class="pb" id="bDisc">0</div>Discard</div>
+      </div>
+    </div>
+
+    <div class="board" id="botBoard"></div>
+
+    <div class="mid"><span id="turnLabel">Your turn</span><span id="timerLabel"></span><span id="roundLabel" class="muted">Round 1 / 20</span></div>
+
+    <div class="board" id="playerBoard"></div>
+
+    <div class="pbar you" id="youBar">
+      <span class="name">You</span>
+      <span class="hearts" id="pHeart">♥ <b id="pHP">20</b></span><span class="hbar"><i id="pBar"></i></span>
+      <span class="energy" id="energy"></span>
+      <span class="muted" id="pHand">Hand 0/8</span>
+      <span class="grow"></span>
+      <button class="primary" id="endTurn">End turn</button>
+      <button id="forfeit">Forfeit</button>
+    </div>
+
+    <div class="handrow">
+      <div class="hand2" id="hand"></div>
+      <div class="piles">
+        <div class="pile"><div class="pb" id="pDeck">0</div>Deck</div>
+        <div class="pile disc"><div class="pb" id="pDisc">0</div>Discard</div>
+      </div>
+    </div>
+
+    <div id="result" class="result" hidden></div>
+    <div id="battleLog">Press Start duel when your deck is ready.</div>
+  </div>
+</div>
+<div id="leaderboardView" hidden>
+  <div class="kicker">Community rankings</div><h1>Leaderboard</h1>
+  <p class="muted">Ranked by collection strength, with rarest cards shown for each player.</p>
+  <div class="actions"><button id="refreshLeaderboard">Refresh leaderboard</button></div>
+  <div id="leaderboardRows" class="panel" style="margin-top:14px">Sign in to load the leaderboard.</div>
+</div>
+<div id="profileView" hidden>
+  <div class="kicker">Your account</div><h1>Player Profile</h1>
+  <section class="panel" id="profileCard">Sign in to view your profile.</section>
+</div>
+</main>
+<div class="modal" id="modal"><div class="modalbox" id="modalbox"><div class="kicker">Pack opening</div><h2 id="revealTitle">New ore discovered!</h2><div id="reveal"></div><div id="revealTag" class="revealtag"></div><div class="actions" style="justify-content:center;margin-top:10px"><button class="primary" id="close">Continue</button><button id="openAgain" hidden>Open another</button></div></div></div>
+<div class="adminwrap"><section class="panel" id="adminPanel"><details open><summary>🛠 Admin Panel</summary>
+<div class="admgrid">
+<label>Rarity<select id="aRar"></select></label>
+<label>Specific ore<select id="aOre"></select></label>
+<label>Mutation<select id="aMut"><option value="random">Random (natural odds)</option><option value="none">No mutation</option><option value="golden">Golden</option><option value="rainbow">Rainbow</option><option value="hacker">Hacker</option><option value="checkered">Checkered</option></select></label>
+<label>Quantity<input id="aQty" type="number" min="1" max="100" value="1"></label>
+<label style="grid-column:1/-1">Give to account UID (leave blank to give to yourself)<input id="aTargetUid" type="text" placeholder="Paste the player UID here" autocomplete="off"></label>
+</div>
+<div class="actions"><button class="primary" id="aGive">Give to collection</button><button id="aForce">Guarantee in packs: OFF</button><button id="aPacks">+100 packs</button></div>
+<div id="aStatus">Pick a rarity and mutation, then give ores directly or guarantee every pack you open.</div>
+</details></section></div>
+<footer>Ore Gacha · Online saves powered by Firebase</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="script.js"></script>
+<div id="authGate">
+ <section id="authCard">
+  <div class="kicker">Ore Gacha · Online</div>
+  <h1 id="authHeading">Welcome back</h1>
+  <p class="muted" id="authSub">Log in to load your cloud save.</p>
+  <form id="authForm">
+   <div id="usernameField" hidden><label for="authUsername">Username</label><input id="authUsername" minlength="3" maxlength="16" pattern="[A-Za-z0-9_]+" autocomplete="username" placeholder="YourGameName"></div>
+   <label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com">
+   <label for="authPassword">Password</label><input id="authPassword" type="password" minlength="6" autocomplete="current-password" required placeholder="At least 6 characters">
+   <button class="primary" id="authSubmit" type="submit" style="width:100%;margin-top:18px">Log in</button>
+  </form>
+  <div class="actions" style="margin-top:12px"><button id="authToggle" type="button">Create an account</button><button id="authReset" type="button">Forgot password?</button></div>
+  <div id="authMessage" role="status" aria-live="polite"></div>
+  <p class="muted" style="font-size:11px;margin-bottom:0">Use an email you can access. Never share your password with other players.</p>
+ </section>
+</div>
+</body></html>
