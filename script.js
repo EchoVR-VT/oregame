@@ -538,10 +538,7 @@ $('#forfeit').onclick=()=>{
 $('#startDuel').onclick=startDuel;
 
 /* ---------- Multiplayer room controls ---------- */
-$('#mpCreate').onclick=async()=>{if(!window.oreMP){$('#mpStatus').textContent='Firebase is still loading.';return}try{await window.oreMP.createRoom();}catch(e){$('#mpStatus').textContent='Could not create room: '+e.message}};
-$('#mpJoin').onclick=async()=>{const code=$('#mpCode').value.trim().toUpperCase();if(!/^[A-Z0-9]{6}$/.test(code)){$('#mpStatus').textContent='Enter a 6-character room code.';return}if(!window.oreMP){$('#mpStatus').textContent='Firebase is still loading.';return}try{await window.oreMP.joinRoom(code)}catch(e){$('#mpStatus').textContent='Could not join room: '+e.message}};
-$('#mpStart').onclick=()=>{if(window.oreMP)window.oreMP.startMatch().catch(e=>$('#mpStatus').textContent='Could not start: '+e.message)};
-$('#mpLeave').onclick=()=>{if(window.oreMP)window.oreMP.leaveRoom()};
+/* Multiplayer room controls removed: index.html has no multiplayer panel. */
 
 /* ---------- Difficulty slider ---------- */
 const diffEl=$('#diff');
