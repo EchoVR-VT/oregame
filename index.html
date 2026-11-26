@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ore Gacha</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="theme.css">
 </head>
 <body>
 <canvas id="fx"></canvas>
@@ -22,21 +23,39 @@
 </div></header>
 <main>
 <div id="homeView">
-  <div class="hero">
-    <section class="panel">
-      <div class="kicker">Offline ore collecting game</div><h1>Ore Gacha</h1>
-      <p class="muted">Open packs, collect mineral cards, build a deck and drag your ores onto the board to battle a bot.</p>
-      <div class="stats">
-        <div class="stat"><b id="packs">3</b><span class="muted">Packs</span></div>
-        <div class="stat"><b id="ownedCount">0</b><span class="muted">Ores owned</span></div>
-        <div class="stat"><b id="deckCount">0/10</b><span class="muted">Deck</span></div>
-      </div>
-      <p class="muted" id="packTimer" style="margin:12px 0 0"></p>
-      <div class="actions" style="margin-top:14px"><button class="primary" id="open">Open pack</button></div>
-    </section>
-    <section class="pack-display"><span class="pack-count"><b id="packBadge">3</b> packs available</span><div class="pack"></div></section>
-  </div>
-  <section class="section"><div class="section-head"><h2>Featured ores</h2><span class="muted">Mineral card set</span></div><div class="grid" id="featured"></div></section>
+  <section class="panel hero3">
+    <div class="hl">
+      <div class="kicker">PACKS AVAILABLE</div>
+      <div class="big-count"><span id="packs">3</span><small id="packMax">/10</small></div>
+      <p class="muted" id="packNote"></p>
+      <p id="packTimer"></p><b id="packBadge" hidden>3</b>
+      <b id="ownedCount" hidden>0</b><b id="deckCount" hidden>0/10</b>
+    </div>
+    <div class="hc">
+      <div class="pack-display"><div class="pack"></div></div>
+      <div class="actions"><button class="primary" id="open">Open pack</button></div>
+    </div>
+    <div class="hr">
+      <div class="timer-ring" id="ring"><div><small>NEXT PACK</small><b id="ringTime">--:--</b></div></div>
+      <div class="invite">Invite friends, earn bonus packs<br><button id="inviteBtn">Invite a friend</button></div>
+      <div class="redeem"><input id="codeIn" placeholder="Have a code?" autocomplete="off"><button id="redeemBtn">Redeem</button></div>
+      <div class="muted" id="redeemMsg"></div>
+    </div>
+  </section>
+
+  <section class="panel section">
+    <div class="section-head"><h2>Collection progress</h2><a href="#" id="openColl">Open collection →</a></div>
+    <div class="progress"><i id="progFill" style="width:0%"></i></div>
+    <div class="stats">
+      <div class="stat"><b id="stPct">0%</b><span id="stPctL"></span></div>
+      <div class="stat"><b id="stCards">0</b><span>Cards owned</span></div>
+      <div class="stat"><b id="stMut">0%</b><span id="stMutL"></span></div>
+      <div class="stat"><b id="stOpen">0</b><span>Packs opened</span></div>
+    </div>
+  </section>
+
+  <section class="section"><div class="section-head"><h2>Recently collected</h2></div><div class="recent" id="recent"></div></section>
+  <div id="featured" hidden></div>
 </div>
 
 <div id="collectionView" hidden>
@@ -59,7 +78,6 @@
 
 <div id="duelView" hidden>
   <div class="kicker">Card battle</div><h1>Ore Duels</h1>
-
   <section class="panel" id="duelIntro">
     <h2>Ready to battle Glungus Bot?</h2>
     <ul class="intro-list">
@@ -93,13 +111,9 @@
         <div class="pile disc"><div class="pb" id="bDisc">0</div>Discard</div>
       </div>
     </div>
-
     <div class="board" id="botBoard"></div>
-
     <div class="mid"><span id="turnLabel">Your turn</span><span id="timerLabel"></span><span id="roundLabel" class="muted">Round 1 / 20</span></div>
-
     <div class="board" id="playerBoard"></div>
-
     <div class="pbar you" id="youBar">
       <span class="name">You</span>
       <span class="hearts" id="pHeart">♥ <b id="pHP">20</b></span><span class="hbar"><i id="pBar"></i></span>
@@ -109,7 +123,6 @@
       <button class="primary" id="endTurn">End turn</button>
       <button id="forfeit">Forfeit</button>
     </div>
-
     <div class="handrow">
       <div class="hand2" id="hand"></div>
       <div class="piles">
@@ -117,11 +130,11 @@
         <div class="pile disc"><div class="pb" id="pDisc">0</div>Discard</div>
       </div>
     </div>
-
     <div id="result" class="result" hidden></div>
     <div id="battleLog">Press Start duel when your deck is ready.</div>
   </div>
 </div>
+
 <div id="leaderboardView" hidden>
   <div class="kicker">Community rankings</div><h1>Leaderboard</h1>
   <p class="muted">Ranked by collection strength, with rarest cards shown for each player.</p>
@@ -133,7 +146,9 @@
   <section class="panel" id="profileCard">Sign in to view your profile.</section>
 </div>
 </main>
+
 <div class="modal" id="modal"><div class="modalbox" id="modalbox"><div class="kicker">Pack opening</div><h2 id="revealTitle">New ore discovered!</h2><div id="reveal"></div><div id="revealTag" class="revealtag"></div><div class="actions" style="justify-content:center;margin-top:10px"><button class="primary" id="close">Continue</button><button id="openAgain" hidden>Open another</button></div></div></div>
+
 <div class="adminwrap"><section class="panel" id="adminPanel"><details open><summary>🛠 Admin Panel</summary>
 <div class="admgrid">
 <label>Rarity<select id="aRar"></select></label>
@@ -167,4 +182,5 @@
  </section>
 </div>
 <script src="script.js"></script>
+<script src="home.js"></script>
 </body></html>
