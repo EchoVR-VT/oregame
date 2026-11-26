@@ -1,113 +1,72 @@
-/* ===== Demon-pack theme: load AFTER your existing stylesheet ===== */
-:root{
-  --bg:#0a0a0f; --panel:#14151b; --line:#25262e; --txt:#f4f4f7; --muted:#9a9ca8;
-  --gold:#f5a60a; --red:#e8453c;
-  --c-common:#8b8f99; --c-uncommon:#22b455; --c-rare:#2f6fe0; --c-epic:#9d62e0; --c-legendary:#f5a60a;
-}
-body{
-  font:14px/1.4 Inter,"Segoe UI",system-ui,Arial,sans-serif;
-  background:
-    radial-gradient(900px 260px at 50% -4%,#2a0e14aa,transparent 70%),
-    radial-gradient(800px 600px at 100% 100%,#1a1230aa,transparent 70%),
-    var(--bg);
-  background-attachment:fixed;
-}
+/* ===== Ore Pack theme: loads AFTER style.css ===== */
+:root{--bg:#0a0a0f;--panel:#14151b;--line:#25262e;--muted:#9a9ca8;--gold:#f5a60a}
+body{font:14px/1.4 Inter,"Segoe UI",system-ui,Arial,sans-serif;
+ background:radial-gradient(900px 260px at 50% -4%,#2a0e14aa,transparent 70%),radial-gradient(800px 600px at 100% 100%,#1a1230aa,transparent 70%),var(--bg);background-attachment:fixed}
 #fx{display:none}
-
-/* ---------- header ---------- */
-header{background:#0c0c11cc;backdrop-filter:blur(10px);border-bottom:1px solid #1d1e25;box-shadow:none;border-image:none}
+header{background:#0c0c11cc;border-bottom:1px solid #1d1e25;border-image:none;box-shadow:none}
 .logo{font-size:20px;letter-spacing:.04em;text-shadow:none}
 .logo span{animation:none;background:none;color:var(--gold);-webkit-text-fill-color:var(--gold)}
-button,input,select{background:#1b1c23;border:1px solid #2c2d36;border-radius:8px;color:var(--txt)}
+button,input,select{background:#1b1c23;border:1px solid #2c2d36;border-radius:8px}
 button:not(:disabled):hover{background:#262731;box-shadow:none}
-.active,.tab.active{background:#2a1c10;border-color:var(--gold);color:var(--gold);box-shadow:none}
-
-/* ---------- panels ---------- */
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;box-shadow:none}
+.tab.active,.active{background:#2a1c10;border-color:var(--gold);color:var(--gold);box-shadow:none}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:none}
 h1{background:none;-webkit-text-fill-color:#fff;color:#fff;animation:none;filter:none}
 .kicker{color:var(--muted);letter-spacing:.06em;font-size:12px;font-weight:600}
-
-/* ---------- "packs available" block ---------- */
-.big-count{font-size:52px;font-weight:800;line-height:1}
-.big-count small{font-size:20px;color:var(--muted);font-weight:700;margin-left:6px}
-
-/* ---------- pack wrapper ---------- */
-.pack-display{background:none;border:0;overflow:visible;min-height:340px}
-.pack-display:before{display:none}
-.pack{
-  width:200px;height:300px;transform:none;border:0;box-shadow:0 24px 40px -18px #000;
-  background:
-    repeating-linear-gradient(90deg,#ffffff22 0 2px,#0000 2px 5px) top/100% 14px no-repeat,
-    repeating-linear-gradient(90deg,#ffffff22 0 2px,#0000 2px 5px) bottom/100% 14px no-repeat,
-    linear-gradient(115deg,#0000 35%,#ffffff40 50%,#0000 65%) 150% 0/250% 100% no-repeat,
-    linear-gradient(160deg,#8d8f97,#4a4c55 45%,#6c6e77);
-  animation:floaty 4s ease-in-out infinite,sheen 3.5s linear infinite;
-  filter:drop-shadow(0 0 20px #ffffff14);
-}
-.pack:before{content:'EXTREME\A DEMON';white-space:pre;text-align:center;font-size:28px;line-height:1;letter-spacing:.1em;color:#2b2c33;text-shadow:0 1px 0 #ffffff55}
-.pack:after{content:'5 CARDS';bottom:34px;background:#2b2c33;color:#d9dae0;padding:3px 14px;letter-spacing:.2em;font-size:9px}
-@keyframes floaty{50%{transform:translateY(-8px)}}
-
-/* ---------- buttons ---------- */
-.primary{
-  background:linear-gradient(90deg,#c0463f,#c9922b);border:0;color:#2a1a08;font-weight:700;
-  padding:13px 34px;border-radius:9px;letter-spacing:0;animation:none;box-shadow:0 8px 24px -8px #f5a60a66;
-}
+a{color:var(--gold)}
+.primary{background:linear-gradient(90deg,#c0463f,#c9922b);border:0;color:#2a1a08;font-weight:700;padding:13px 34px;border-radius:9px;animation:none;box-shadow:0 8px 24px -8px #f5a60a66}
 .primary:after{display:none}
 .primary:disabled{opacity:.5;box-shadow:none}
+#openAll{padding:13px 18px}
 
-/* ---------- countdown ring (add .timer-ring markup, see notes) ---------- */
-.timer-ring{
-  --p:0.5; width:138px;height:138px;border-radius:50%;display:grid;place-items:center;text-align:center;position:relative;margin:auto;
-  background:conic-gradient(var(--gold) calc(var(--p)*360deg),#23242b 0);
-}
+/* ----- hero ----- */
+.hero3{display:grid;grid-template-columns:1fr 240px 1fr;gap:24px;align-items:center;margin-top:14px;padding:34px}
+.big-count{font-size:56px;font-weight:800;line-height:1;margin:6px 0 12px}
+.big-count small{font-size:20px;color:var(--muted);margin-left:6px}
+#packTimer{display:none}
+.hc{text-align:center}.hc .actions{justify-content:center;margin-top:14px}
+.hr{justify-self:end;width:230px;display:grid;gap:14px}
+.pack-display{background:none;border:0;overflow:visible;min-height:320px;display:grid;place-items:center}
+.pack-display:before{display:none}
+.pack{width:200px;height:300px;transform:none;border:0;box-shadow:0 24px 40px -18px #000;
+ background:repeating-linear-gradient(90deg,#ffffff22 0 2px,#0000 2px 5px) top/100% 14px no-repeat,repeating-linear-gradient(90deg,#ffffff22 0 2px,#0000 2px 5px) bottom/100% 14px no-repeat,linear-gradient(115deg,#0000 35%,#ffffff40 50%,#0000 65%) 150% 0/250% 100% no-repeat,linear-gradient(160deg,#8d8f97,#4a4c55 45%,#6c6e77);
+ filter:drop-shadow(0 0 20px #ffffff14)}
+.pack:before{content:'ORE\A PACK';white-space:pre;text-align:center;font-size:34px;line-height:1.05;letter-spacing:.12em;color:#2b2c33;text-shadow:0 1px 0 #ffffff55}
+.pack:after{content:'5 CARDS';bottom:34px;background:#2b2c33;color:#d9dae0;padding:3px 14px;letter-spacing:.2em;font-size:9px}
+.pack-display .pack{animation:floaty 4s ease-in-out infinite}
+@keyframes floaty{50%{transform:translateY(-8px)}}
+.timer-ring{--p:0;width:138px;height:138px;border-radius:50%;display:grid;place-items:center;text-align:center;position:relative;margin:auto;background:conic-gradient(var(--gold) calc(var(--p)*360deg),#23242b 0)}
 .timer-ring:before{content:'';position:absolute;inset:6px;border-radius:50%;background:var(--panel)}
-.timer-ring>*{position:relative}
-.timer-ring small{display:block;font-size:12px;color:var(--muted)}
-.timer-ring b{font-size:28px}
-
-/* ---------- invite / redeem ---------- */
+.timer-ring>*{position:relative}.timer-ring small{display:block;font-size:12px;color:var(--muted)}.timer-ring b{font-size:28px}
 .invite{background:#1c170c;border:1px solid #6b5016;border-radius:12px;padding:16px;text-align:center;font-weight:700}
-.invite button{background:none;border:1px solid var(--gold);color:var(--gold);font-weight:700;border-radius:8px;margin-top:8px}
-.redeem{display:flex;gap:8px;margin-top:12px}
-.redeem input{flex:1;background:#111217}
-.redeem button{background:#17181e;font-weight:700}
+.invite button{background:none;border:1px solid var(--gold);color:var(--gold);font-weight:700;margin-top:8px}
+.redeem{display:flex;gap:8px}.redeem input{flex:1;min-width:0;background:#111217}.redeem button{font-weight:700}
+@media(max-width:860px){.hero3{grid-template-columns:1fr;text-align:center}.hr{justify-self:center}}
 
-/* ---------- progress + stat tiles ---------- */
-.progress,.pbar-collection{height:8px;border-radius:6px;background:#25262c;overflow:hidden;margin:14px 0}
-.progress i,.pbar-collection i{display:block;height:100%;background:linear-gradient(90deg,#e8453c,#f5a60a);border-radius:6px}
+/* ----- progress + tiles ----- */
+.section-head h2{font-size:18px;font-weight:800;margin:0}
+.progress{height:8px;border-radius:6px;background:#25262c;overflow:hidden;margin:14px 0}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#e8453c,#f5a60a);border-radius:6px;transition:width .5s}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
 .stat{background:#17181e;border:1px solid #26272f;border-radius:10px;padding:14px 16px;box-shadow:none;color:var(--muted);font-size:13px}
 .stat:hover{transform:none;box-shadow:none;border-color:#34353f}
-.stat b{background:none;-webkit-text-fill-color:#fff;color:#fff;font-size:26px;margin-bottom:2px}
-.section-head h2,.section h2{font-size:18px;font-weight:800}
-.section-head a,a{color:var(--gold)}
+.stat b{background:none;-webkit-text-fill-color:#fff;color:#fff;font-size:26px}
 
-/* ---------- collectible cards ---------- */
+/* ----- cards ----- */
 .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.card{
-  --bc:var(--c-common);
-  background:linear-gradient(180deg,#1a1b22,#121318);border:3px solid var(--bc);border-radius:10px;padding:8px;
-  min-height:0;animation:none;box-shadow:0 10px 20px -12px #000;display:flex;flex-direction:column;gap:6px;
-}
-.card:hover{box-shadow:0 0 0 1px var(--bc),0 14px 26px -10px #000}
-.card:has(.rarity.uncommon){--bc:var(--c-uncommon)}
-.card:has(.rarity.rare){--bc:var(--c-rare)}
-.card:has(.rarity.epic){--bc:var(--c-epic);box-shadow:0 0 18px #9d62e055}
-.card:has(.rarity.legendary){--bc:var(--c-legendary);box-shadow:0 0 20px #f5a60a66;animation:none}
-.card:has(.rarity.mythic),.card:has(.rarity.exotic){border-width:3px}
-.card .rank{font-size:15px;font-weight:800;color:#fff}              /* "#470" */
-.card .rarity{
-  position:absolute;top:10px;right:10px;font-size:8px;font-weight:800;letter-spacing:.06em;
-  padding:3px 7px;border-radius:5px;background:var(--bc);color:#fff;text-shadow:none;animation:none;
-}
-.card .rarity.common{background:#cfd0d6;color:#2b2c33}
-.card h3{font-size:12px;margin:0;color:var(--muted);font-weight:600}
-.card .symbol,.card .art{height:96px;border-radius:6px;background:#0b0b0f center/cover no-repeat;overflow:hidden}
-.card .symbol:before{display:none}
+.recent{display:grid;grid-auto-flow:column;grid-auto-columns:150px;gap:12px;overflow-x:auto;padding:4px 4px 12px}
+.card{--bc:#8b8f99;background:linear-gradient(180deg,#1a1b22,#121318);border:3px solid var(--bc);border-radius:10px;padding:8px;min-height:0;display:flex;flex-direction:column;gap:6px;box-shadow:0 10px 20px -12px #000;animation:none}
+.card[data-r=rare]{--bc:#2f6fe0}
+.card[data-r=epic]{--bc:#9d62e0;box-shadow:0 0 18px #9d62e055}
+.card[data-r=legendary]{--bc:#f5a60a;box-shadow:0 0 20px #f5a60a66}
+.card[data-r=mythic]{--bc:#ff5ad2;box-shadow:0 0 22px #ff5ad288}
+.card[data-r=exotic]{--bc:#4dfff0;box-shadow:0 0 22px #4dfff088}
+.chead{display:flex;justify-content:space-between;align-items:center;gap:4px}
+.cnum{font-weight:800;font-size:15px;color:#fff}
+.tag{font-size:8px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:5px;background:var(--bc);color:#fff;white-space:nowrap}
+.card[data-r=common] .tag{background:#cfd0d6;color:#2b2c33}
+.card .symbol{height:96px;border-radius:6px;background:radial-gradient(circle at 50% 45%,#ffffff12,#0b0b0f 72%)}
+.card h3{font-size:12px;margin:0;color:#fff}
 .dup{left:8px;right:auto;bottom:8px;background:#f58a2b;border:2px solid #fff3;color:#2a1304;border-radius:999px;padding:2px 8px}
-
-/* ---------- misc ---------- */
 .empty{border-color:#2c2d36;border-radius:10px}
 footer{border-top:1px solid #1d1e25;color:#6c6e7a}
 .modalbox,.rs-box,#authCard{background:var(--panel);border:1px solid var(--line);border-radius:14px}
